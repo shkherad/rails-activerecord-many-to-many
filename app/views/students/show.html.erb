@@ -1,0 +1,12 @@
+<h1><%= @student.name %></h1>
+
+<h2>Spells</h2>
+<% @student.spells.each do |spell| %>
+  <div><%= link_to spell.name, spell %></div>
+<% end %>
+
+
+<h2>Courses</h2>
+<% @student.courses.each do |course| %>
+  <div><%= link_to course.name, course %></div>
+<% end %>

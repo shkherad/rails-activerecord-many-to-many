@@ -1,0 +1,7 @@
+<h1>House: <%= @house.name %></h1>
+
+<h2>Students</h2>
+
+<% @house.students.each do |student| %>
+  <div><%= link_to student.name, student %>
+<% end %>

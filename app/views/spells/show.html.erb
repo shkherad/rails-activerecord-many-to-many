@@ -1,0 +1,6 @@
+<h1>Spell: <%= @spell.name %></h1>
+
+<h2>Students who have mastered this spell</h2>
+<% @spell.students.each do |student| %>
+  <div><%= link_to student.name, student %>
+<% end %>

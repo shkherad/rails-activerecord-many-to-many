@@ -3,5 +3,8 @@
 <h2>Students</h2>
 
 <% @house.students.each do |student| %>
-  <div><%= link_to student.name, student %>
+  <div><%= link_to student.name, house_student_path(@house, student) %>
 <% end %>
+
+<br>
+<%= link_to "Add New Student", new_house_student_path(@house) %>

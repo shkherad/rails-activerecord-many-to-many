@@ -2,7 +2,6 @@ Rails.application.routes.draw do
 
   root 'schools#index'
 
-
   resources :houses do
     resources :students
   end

@@ -1,0 +1,6 @@
+<h3>There are <%= pluralize(Album.count, 'album') %> </h3>
+<ul>
+<%= render partial: "album", collection: @albums %>
+</ul>
+
+<%= link_to "New Album", new_album_path %>

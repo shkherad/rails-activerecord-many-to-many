@@ -1,0 +1,16 @@
+<%= form_for(@album) do |f| %>
+<%= render 'shared/errors', object: @album %>
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :genre %><br>
+    <%= f.select :genre,
+    Album::GENRES,
+    prompt: "Pick one" %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -75,20 +75,13 @@ For example, this the Data Model for this application.
 
 **Did I say always enough?**
 
-## Lab 
-
-How do we make sure that a Song **MUST** be part of an Album?
-
-Another words, how does one enforce the cardinality of the relationship betwen a Song and an Album using Rails validations?
-
-
 ## What we've given.
 
 We are going to start off with a working, but limited app. What we have is a app with two models, **Song and Album**.
 
 ![Entity](Album_Songs.jpg)
 
-## Create an Artist
+## Demo: Create an Artist
 
 ```
 rails g scaffold Artist name union_member:boolean dob:date
@@ -107,9 +100,11 @@ Migrate to add the artists table to the database.
 rake db:migrate
 ```
 
+## Lab
+
 Create an artist in the rails console. And create, update and delete the Artist in the UI.
 
-## Make a Songs Contribution Join Table.
+## Demo: Make a Songs Contribution Join Table.
 
 Lets create a **Many to Many** relationship between Artists and Songs. 
 
@@ -177,6 +172,7 @@ end
 Add seed data.  
 
 ```
+Song.delete_all
 Album.delete_all
 
 nevermind = Album.create!(title: "Nevermind", genre: 'rock')
@@ -196,31 +192,69 @@ kurt = Artist.create!(name: 'Kurt Cobain', dob: DateTime.parse("February 20, 196
 dave = Artist.create!(name: 'Dave Grohl', dob: DateTime.parse("January 14, 1969"))
 beck = Artist.create!(name: 'Beck Hansen', dob: DateTime.parse("July 8, 1970"))
 
-kurt.songs << lithium
-kurt.songs << come_as
-
-dave.songs << lithium
-
-beck.songs << golden_age
-beck.songs << lost_cause
-beck.songs << lonesome_tears
 ```
+
+In the console:
+
+* Get an artist.  
+	> kurt = Artist.first
+
+* Show all the songs he has contributed to.
+	> kurt.song_contributions
+
+* Show all his songs. This is using a through relationship.  
+	> kurt.songs
+
+* Get a Song.  
+	> come_as = Song.last
+
+
+* Create a SongContribution.  
+	> kurt.song_contributions.create(role: 'writer', song: come_as)
+
+* Reload the artist from the DB.  
+	> kurt.reload
+
+* Kurt now has one song.  
+	> kurt.songs
+
+* See how a JOIN was created.  
+	> SongContribution.all
+
+* Another way to create contribution.
+	> lithium	= Song.find_by(title: 'lithium')  
+	
+	> SongContribution.create!(artist: kurt, song: lithium, role: 'guitar')  
+	
+	> kurt.reload
+	  
+	> kurt.songs
+
+	> SongContribution.all  
 
 ## Lab
 #### In the Rails console.
-- Take a look at each Artist's songs.
-- Take a look at each Song's artists.
-- Draw the contents of each Artist, SongColloborator and Song table in the DB.
+- Make Beck the 'writer' of 'Lost Cause'. Use beck.song_contributions.create.  
+
+- Make Beck the 'singer' for 'Lonesome Tears'. Use SongContributor.create. 
+
+- Make Beck the 'writer' of 'Golden Age'. Use beck.song_contributors.build. Then beck.save.  
+
+- Make Dave Grohl the guitarist on both Nirvana songs. Use \<song\>.artists.create here.
+
+#### Draw the contents of the DB.
+- Draw the contents of each Artist, SongColloborator and Song table in the DB at this point.
 - Show an instructor your drawings.
+
+#### Populate/Seed the DB with the above.
+Use \<artist\>.song_contributions.create here.  
 
 #### In the UI
 - Take a look at each Artist's songs.
 - Take a look at each Song's artists.
 
-Oops, some work needs to be done here, ay!
+Oops, some work needs to be done here, ay! Lets do that below.
 
 
 ## Demo
-
-
 

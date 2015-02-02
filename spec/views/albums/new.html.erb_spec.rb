@@ -4,7 +4,7 @@ RSpec.describe "albums/new", :type => :view do
   before(:each) do
     assign(:album, Album.new(
       :title => "MyString",
-      :genre => "MyString"
+      :genre => "rock"
     ))
   end
 
@@ -15,7 +15,7 @@ RSpec.describe "albums/new", :type => :view do
 
       assert_select "input#album_title[name=?]", "album[title]"
 
-      assert_select "input#album_genre[name=?]", "album[genre]"
+      assert_select "select#album_genre[name=?]", "album[genre]"
     end
   end
 end

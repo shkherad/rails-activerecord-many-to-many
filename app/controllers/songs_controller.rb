@@ -19,9 +19,8 @@ class SongsController < ApplicationController
   end
 
   def create
-    @song = @parent.songs.new(song_params)
-
-    if @song.save
+    @song = @parent.songs.create(song_params)
+    if @song.valid?
       redirect_to send("#{@parent_resource}_songs_path",@parent), notice: "You've created a new Song for an #{@parent_resource}"
     else
       render :new
@@ -42,6 +41,7 @@ class SongsController < ApplicationController
   end
 
   private
+
   def set_parent
     logger.debug "invoking set_song"
     parent_resources = %w{ album artist}

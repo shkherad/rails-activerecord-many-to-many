@@ -41,15 +41,22 @@ Each Song **must** be part of **one and only one** Album.
 * cardinality is **one and only one**
 * second entity is Album.  
 
-Each Album **must	** contain **one or more** Songs.
+Each Album **may** contain **zero or more** Songs.
 
 * entity is Album
 * relationship is "contain"
-* cardinality is **one or more**
+* cardinality is **zero or more**
 * second entity is Song.
 
+We can create an Entity Relationship Diagram(ERD) using [Crows Foot Notation](http://www.tdan.com/view-articles/7474)
+	
+![ERD Crows Feet Notation](ERD_Crows_feet.jpg)
+
+For example, this the Data Model for this application.  
 
 ![Entity](Album_Songs.jpg)
+
+
 
 ### References
 * [How to read a Data Model](http://www.essentialstrategies.com/publications/modeling/howtoread.htm)  
@@ -68,6 +75,12 @@ Each Album **must	** contain **one or more** Songs.
 
 **Did I say always enough?**
 
+## Lab 
+
+How do we make sure that a Song **MUST** be part of an Album?
+
+Another words, how does one enforce the cardinality of the relationship betwen a Song and an Album using Rails validations?
+
 
 ## What we've given.
 
@@ -75,10 +88,10 @@ We are going to start off with a working, but limited app. What we have is a app
 
 ![Entity](Album_Songs.jpg)
 
-## Create an Artist scaffold
+## Create an Artist
 
 ```
-rails g scaffold Artist name union_member:boolean dob:datetime
+rails g scaffold Artist name union_member:boolean dob:date
 ```
 
 Now we have an Artist that can have a name and may be a union_member and has a Date of Birth.
@@ -96,15 +109,11 @@ rake db:migrate
 
 Create an artist in the rails console. And create, update and delete the Artist in the UI.
 
-## Make a SongsArtist Join Table.
+## Make a Songs Contribution Join Table.
 
-Now we are going to associate each Song not only with an Album, *remember each Song MUST be part of an album*, but each Song will be associated with **One or more Artists**. 
+Lets create a **Many to Many** relationship between Artists and Songs. 
 
-And each Artist MAY be associated with **One or more Songs.**
-
-This is a **Many to Many** relationship between Songs and Artists. 
-
-
+Each artist could have contributed to many songs. And each song could have many artists that contributed to the song.
 
 #### Create SongContribution model.
 
@@ -113,23 +122,24 @@ Create a **JOIN** model that will represent the **Many to Many** relationship be
 ```
 rails g migration CreateSongContribution song:belongs_to artist:belongs_to role:string
 ```
-
-**Lets draw out the relationships as they will exist in the DB.**
-
-Remove the artist field from Songs **because the this Artist to Song relationship will now be kept in the Join Table/Model.** *Don't forget to remove the artist attribute from the Song views.*  
-
-
-```
-rails g migration RemoveArtistFromSongs artist:string
-```
-
 Run the migrations. *May have to drop/create/migrate the DB*
 
 ```
 rake db:migrate
 ```
 
+**This is the Data Model for this many to many relationship.**
+
+![Song Contributor Join Model](Song_Contributors.jpg)
+
+
+## Lab 
+Draw the Physical Database Tables for this Data Model.
+
+## Demo
+
 Create a Join model for song contributions in app/models/song_contribution.rb  *Notice the namimg convention here*
+
 
 ```
 class SongContribution < ActiveRecord::Base
@@ -152,6 +162,7 @@ end
 
 ```
 
+
 Add song contributions to the song model.  ** We will use a through relationship to find the song's artists!**
 
 ```
@@ -173,8 +184,7 @@ sea_change = Album.create!(title: "Sea Change", genre: 'jazz')
 
 golden_age = sea_change.songs.create!(title: 'golden age', price: 1.99, duration: 215)
 lost_cause = sea_change.songs.create!(title: 'lost Cause', price: 4.99, duration: 182)
-lonesome_tears = sea_change.songs.create!(title: 'lonesome Tears', price: 2.99, duration: 1\
-56)
+lonesome_tears = sea_change.songs.create!(title: 'lonesome Tears', price: 2.99, duration: 156)
 
 lithium = nevermind.songs.create!(title: 'lithium', duration: 193, price: 1.99)
 come_as = nevermind.songs.create!(title: 'come as you are', duration: 177, price: 1.49)
@@ -196,15 +206,21 @@ beck.songs << lost_cause
 beck.songs << lonesome_tears
 ```
 
+## Lab
 #### In the Rails console.
 - Take a look at each Artist's songs.
 - Take a look at each Song's artists.
+- Draw the contents of each Artist, SongColloborator and Song table in the DB.
+- Show an instructor your drawings.
 
 #### In the UI
 - Take a look at each Artist's songs.
 - Take a look at each Song's artists.
 
 Oops, some work needs to be done here, ay!
+
+
+## Demo
 
 
 

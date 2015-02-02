@@ -1,8 +1,8 @@
-<h2><%= pluralize(@songs.count, 'song') + " in #{@album.title}" %></h2>
+<h2><%= pluralize(@songs.count, 'song')  %></h2>
 <ul>
   <% @songs.each do |song| %>
-  <li><%= link_to song.title, album_song_path(@album, song) %></li>
+  <li><%= link_to song.title, send("#{@parent_resource}_song_path",@parent, song) %></li>
   <% end %>
 </ul>
 
-<%= link_to "New Song in #{@album.title}" , new_album_song_path(@album) %>
+<%= link_to "New Song" , send("new_#{@parent_resource}_song_path",@parent) %>

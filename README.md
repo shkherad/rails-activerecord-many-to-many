@@ -91,7 +91,7 @@ We are going to start off with a working, but limited app. What we have is a app
 ## Create an Artist scaffold
 
 ```
-rails g scaffold Artist name union_member:boolean dob:datetime
+rails g scaffold Artist name union_member:boolean dob:date
 ```
 
 Now we have an Artist that can have a name and may be a union_member and has a Date of Birth.

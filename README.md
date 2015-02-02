@@ -41,15 +41,22 @@ Each Song **must** be part of **one and only one** Album.
 * cardinality is **one and only one**
 * second entity is Album.  
 
-Each Album **must	** contain **one or more** Songs.
+Each Album **may** contain **zero or more** Songs.
 
 * entity is Album
 * relationship is "contain"
-* cardinality is **one or more**
+* cardinality is **zero or more**
 * second entity is Song.
 
+We can create an Entity Relationship Diagram(ERD) using [Crows Foot Notation](http://www.tdan.com/view-articles/7474)
+	
+![ERD Crows Feet Notation](ERD_Crows_feet.jpg)
+
+For example, this the Data Model for this application.  
 
 ![Entity](Album_Songs.jpg)
+
+
 
 ### References
 * [How to read a Data Model](http://www.essentialstrategies.com/publications/modeling/howtoread.htm)  
@@ -67,6 +74,12 @@ Each Album **must	** contain **one or more** Songs.
 ### Always, always draw a Data/Domain Model.
 
 **Did I say always enough?**
+
+## Lab 
+
+How do we make sure that a Song **MUST** be part of an Album?
+
+Another words, how does one enforce the cardinality of the relationship betwen a Song and an Album using Rails validations?
 
 
 ## What we've given.
@@ -96,7 +109,7 @@ rake db:migrate
 
 Create an artist in the rails console. And create, update and delete the Artist in the UI.
 
-## Make a SongsArtist Join Table.
+## Make a Songs Contribution Join Table.
 
 Now we are going to associate each Song not only with an Album, *remember each Song MUST be part of an album*, but each Song will be associated with **One or more Artists**. 
 

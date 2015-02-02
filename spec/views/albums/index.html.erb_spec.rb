@@ -5,11 +5,11 @@ RSpec.describe "albums/index", :type => :view do
     assign(:albums, [
       Album.create!(
         :title => "Title",
-        :genre => "Genre"
+        :genre => "rock"
       ),
       Album.create!(
         :title => "Title",
-        :genre => "Genre"
+        :genre => "rock"
       )
     ])
   end
@@ -17,6 +17,6 @@ RSpec.describe "albums/index", :type => :view do
   it "renders a list of albums" do
     render
     assert_select "tr>td", :text => "Title".to_s, :count => 2
-    assert_select "tr>td", :text => "Genre".to_s, :count => 2
+    assert_select "tr>td", :text => "rock".to_s, :count => 2
   end
 end

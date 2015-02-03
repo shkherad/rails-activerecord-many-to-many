@@ -40,7 +40,8 @@
   </div>
   <div class="field">
     <%= s.label :price %><br>
-    <%= s.text_field :price, value: s.object.price.round(2) %>
+    <%= s.text_field :price, value: s.object.price %>
+    <%# = s.text_field :price, value: s.object.price.round(2) %>
   </div>
   <% end %>
 

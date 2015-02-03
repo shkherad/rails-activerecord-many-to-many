@@ -240,7 +240,7 @@ In the console:
 
 - Make Beck the 'writer' of 'Golden Age'. Use beck.song_contributors.build. Then beck.save.  
 
-- Make Dave Grohl the guitarist on both Nirvana songs. Use \<song\>.artists.create here.
+- Make Dave Grohl the drummer on both Nirvana songs. Use \<song\>.artists.create here.
 
 #### Draw the contents of the DB.
 - Draw the contents of each Artist, SongColloborator and Song table in the DB at this point.
@@ -248,6 +248,21 @@ In the console:
 
 #### Populate/Seed the DB with the above.
 Use \<artist\>.song_contributions.create here.  
+
+```
+ # Add songs to artists                                                                                 
+kurt.song_contributions.create!(song: come_as, role: 'writer')
+ # Explicity create a SongContribution, pretty much same as above                                       
+SongContribution.create!(song: lithium, artist: kurt, role: 'guitar')
+
+beck.song_contributions.create!(song: lost_cause, role: 'writer')
+beck.song_contributions.create!(song: lonesome_tears, role: 'singer')
+beck.song_contributions.create!(song: golden_age, role: 'writer')
+
+ # Add artists to a songs.                                                                              
+lithium.song_contributions.create(song: lithium, role: 'drummer')
+lithium.song_contributions.create(song: come_as, role: 'drummer')
+```
 
 #### In the UI
 - Take a look at each Artist's songs.

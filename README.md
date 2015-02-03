@@ -312,7 +312,7 @@ In the Rails console, make Dave Krohl the writer of the song "In Bloom". Use a p
 
 *Hopefully, no rapid Nirvana fans will hunt me down for messing up who contributed what, ay.*    
 
-## Demo. Add Songs to Artists from UI
+## Demo. Update an Artist Songs from UI
 
 Lets create a UI that will allow us to manage an Artist's songs.
 
@@ -356,3 +356,47 @@ end
 ```
 
 * Edit the artist Kurt Cobain.
+
+## Demo: Add Songs for an Artist
+
+In the artist model find all the songs that are not associated with an artist.  
+
+```
+ def other_songs
+    Song.all - self.songs
+  end
+```
+
+In the artist form partial create a select that will contain all songs that are not currently related to this artist.  Use **collection_select**.
+
+```
+  <div class="field">                                                                                 
+    <%= f.label :songs, value: 'Add Songs' %><br>                                                     
+    <%= f.collection_select :song_ids, @artist.other_songs, :id, :title %>                            
+  </div>  
+```
+
+Add songs to an artists during the create and update actions in the artist controller.  
+
+```
+ def create
+    @artist = Artist.new(artist_params)
+
+    @artist.songs << Song.find(params[:artist][:song_ids]) if params[:artist][:song_ids]
+    respond_to do |format|
+   ... 
+end
+```
+
+```
+ def update
+    @artist.songs << Song.find(params[:artist][:song_ids]) if params[:artist][:song_ids]
+    ...
+ end
+```
+
+## Lab: Add a User resource. 
+
+Add a User resource. This User will have a name and email. 
+
+Add a Join so that Users can own Songs. The join model should also have a purchased at date attribute.

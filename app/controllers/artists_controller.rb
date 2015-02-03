@@ -26,6 +26,7 @@ class ArtistsController < ApplicationController
   def create
     @artist = Artist.new(artist_params)
 
+    @artist.songs << Song.find(params[:artist][:song_ids]) if params[:artist][:song_ids]
     respond_to do |format|
       if @artist.save
         format.html { redirect_to @artist, notice: 'Artist was successfully created.' }
@@ -40,6 +41,8 @@ class ArtistsController < ApplicationController
   # PATCH/PUT /artists/1
   # PATCH/PUT /artists/1.json
   def update
+    @artist.songs << Song.find(params[:artist][:song_ids]) if params[:artist][:song_ids]
+
     respond_to do |format|
       if @artist.update(artist_params)
         format.html { redirect_to @artist, notice: 'Artist was successfully updated.' }

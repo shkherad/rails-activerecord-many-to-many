@@ -129,7 +129,7 @@ rake db:migrate
 
 
 ## Lab 
-Draw the Physical Database Tables for this Data Model.
+Draw the Physical Database Tables for this Data Model. *Keep it around, we're going to fill in rows later*
 
 ## Demo
 
@@ -258,3 +258,56 @@ Oops, some work needs to be done here, ay! Lets do that below.
 
 ## Demo
 
+Lets learn how we can manage [Nested attributes](http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html).
+
+
+Add **accepts_nested_attributes_for** so that an artists songs and song contributions can be created or updated when updating an artist.  
+
+```
+class Artist < ActiveRecord::Base
+
+  has_many :song_contributions
+  has_many :songs, through: :song_contributions
+
+  accepts_nested_attributes_for :song_contributions, :songs
+end
+```
+
+In the Rails Console:  
+
+- Notice that adding *accepts_nested_attributes_for* creates new setter methods (songs_contributions_attributes= and songs_attributes=)  
+	> kurt = Artist.first  
+	> kurt.methods.grep /attributes/  
+
+- Create a hash, yep like a params hash in the controller. This hash should have a key of for one of these new setter methods and a values that is array of hashes. *The array will have hashes used to create child relationships*  
+	> params = {songs_attributes: 	[{title: "Teen Spirit", duration: 123, price: 1.49}] }
+
+- Update an artist to have this new song.  
+	> kurt.update(params)
+	
+- Show that kurt has a new song and a new song contribution was created.  
+	> kurt.reload  
+	> kurt.songs.count  
+	> kurt.songs.last  
+	> kurt.song_contributions.last  
+	
+- Make kurt a writer of this song.  
+	> kurt.song_contributions.last.role = 'writer'  
+	> kurt.save  
+	> kurt.reload  
+	> kurt.song_contributions.last  
+	
+- Oh, the duration of the song is wrong. It should be 199 minutes.  
+Notice how when **updating** the song we need to pass it the **id** of the song to be updated.  
+*Note: your id will probably be different*  
+	> params = {songs_attributes: [{id: 22, duration: 199}] }  
+	> kurt.update(params)  
+	> kurt.reload  
+	> kurt.songs.last  
+	
+	
+## Lab
+
+In the Rails console, make Dave Krohl the writer of the song "In Bloom". Use a params hash and the Artist#update method for this.
+
+*Hopefully, no rapid Nirvana fans will hunt me down for messing up who contributed what, ay.*    

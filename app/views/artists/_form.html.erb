@@ -23,26 +23,14 @@
     <%= f.label :dob %><br>
     <%= f.date_select :dob %>
   </div>
-  <div class="field">
-    <%= f.label :songs, value: 'Add Songs' %><br>
-    <%= f.collection_select :song_ids, @artist.other_songs, :id, :title %>
-  </div>
 
+  <!-- Render the dropdown/select for choosing a song to
+       add for the artist-->
+  <%= render 'select_songs', artist_form: f %>
+
+  <!-- Render form for each of this artist's songs -->
   <%= f.fields_for :songs do |s| %>
-  <hr>
-  <div class="field">
-    <%= s.label :title %><br>
-    <%= s.text_field :title %>
-  </div>
-  <div class="field">
-    <%= s.label :duration %><br>
-    <%= s.number_field :duration %>
-  </div>
-  <div class="field">
-    <%= s.label :price %><br>
-    <%= s.text_field :price, value: s.object.price %>
-    <%# = s.text_field :price, value: s.object.price.round(2) %>
-  </div>
+    <%= render 'songs', song_form: s %>
   <% end %>
 
   </div>

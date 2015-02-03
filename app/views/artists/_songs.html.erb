@@ -1,0 +1,14 @@
+<fieldset>
+  <div class="field">
+    <%= song_form.label :title %><br>
+    <%= song_form.text_field :title %>
+  </div>
+  <div class="field">
+    <%= song_form.label :duration, "Duration:(minutes)" %><br>
+    <%= song_form.number_field :duration %>
+  </div>
+  <div class="field">
+    <%= song_form.label :price, "Price:(dollars)" %><br>
+    <%= song_form.text_field :price, value: song_form.object.price.round(2) %>
+  </div>
+</fieldset>

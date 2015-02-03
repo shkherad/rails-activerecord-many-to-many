@@ -1,0 +1,4 @@
+<div class="field">
+  <%= artist_form.label :songs, value: 'Add Songs' %><br>
+  <%= artist_form.collection_select :song_ids, @artist.other_songs, :id, :title, {include_blank: 'Select Song'} %>
+</div>

@@ -18,7 +18,7 @@
 <h2><%= pluralize(@artist.songs.count, 'song') %></h2>
 <ul>
   <% @artist.songs.each do |song| %>
-  <li>Title: <%=song.title %>, Duration: <%= song.duration%>, Price: <%= song.price %></li>
+  <li>Title: <%=song.title %>, Duration: <%= song.duration%>, Price: <%= song.price.round(2) %></li>
   <% end %>
 </ul>
 

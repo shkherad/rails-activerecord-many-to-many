@@ -15,5 +15,12 @@
   <%= @artist.dob %>
 </p>
 
+<h2><%= pluralize(@artist.songs.count, 'song') %></h2>
+<ul>
+  <% @artist.songs.each do |song| %>
+  <li>Title: <%=song.title %>, Duration: <%= song.duration%>, Price: <%= song.price %></li>
+  <% end %>
+</ul>
+
 <%= link_to 'Edit', edit_artist_path(@artist) %> |
 <%= link_to 'Back', artists_path %>

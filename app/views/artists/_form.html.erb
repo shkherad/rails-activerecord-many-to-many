@@ -23,6 +23,24 @@
     <%= f.label :dob %><br>
     <%= f.date_select :dob %>
   </div>
+
+  <%= f.fields_for :songs do |s| %>
+  <hr>
+  <div class="field">
+    <%= s.label :title %><br>
+    <%= s.text_field :title %>
+  </div>
+  <div class="field">
+    <%= s.label :duration %><br>
+    <%= s.number_field :duration %>
+  </div>
+  <div class="field">
+    <%= s.label :price %><br>
+    <%= s.text_field :price, value: s.object.price.round(2) %>
+  </div>
+  <% end %>
+
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -311,3 +311,48 @@ Notice how when **updating** the song we need to pass it the **id** of the song 
 In the Rails console, make Dave Krohl the writer of the song "In Bloom". Use a params hash and the Artist#update method for this.
 
 *Hopefully, no rapid Nirvana fans will hunt me down for messing up who contributed what, ay.*    
+
+## Demo. Add Songs to Artists from UI
+
+Lets create a UI that will allow us to manage an Artist's songs.
+
+* In the Artist show action add this to show all the artist's songs.  
+
+```
+ <h2><%= pluralize(@artist.songs.count, 'song') %></h2>
+ <ul>
+  <% @artist.songs.each do |song| %>
+  <li>Title: <%=song.title %>, Duration: <%= song.duration%>, Price: <%= song.price %></li>
+  <% end %>
+ </ul>
+```
+
+* In the Artist edit action add **fields_for**. This will generate the HTML form fields needed to update the artist's songs.  
+
+```
+ <%= f.fields_for :songs do |s| %>
+  <hr>
+  <div class="field">
+    <%= s.label :title %><br>
+    <%= s.text_field :title %>
+  </div>
+  <div class="field">
+    <%= s.label :duration %><br>
+    <%= s.number_field :duration %>
+  </div>
+  <div class="field">
+    <%= s.label :price %><br>
+    <%= s.text_field :price, value: s.object.price.round(2) %>
+  </div>
+  <% end %>
+```
+
+* Change the artist_params method so that we will allow users to change an artists songs. This will permit the songs_attributes in the params hash.   
+
+```
+def artist_params
+  params.require(:artist).permit(:name, :union_member, :dob, songs_attributes: [:id, :title, :duration, :price ])
+end
+```
+
+* Edit the artist Kurt Cobain.

@@ -14,5 +14,5 @@
   <%= number_to_currency(@song.price) %>
 </p>
 
-<%= link_to 'Edit', edit_album_song_path(@album, @song) %> |
-<%= link_to 'Back', album_songs_path(@album) %> <br>
+<%= link_to 'Edit', send("edit_#{@parent_resource}_song_path",@parent, @song) %> |
+<%= link_to 'Back', send("#{@parent_resource}_songs_path",@parent) %> <br>

@@ -1,4 +1,4 @@
-<%= form_for [@album, @song] do |f| %>
+<%= form_for [@parent, @song] do |f| %>
 <%= render 'shared/errors', object: @song %>
 <p>
   <%= f.label :title %>
@@ -13,5 +13,5 @@
 </p>
 
 <%= f.submit %>
-| <%= link_to "Cancel", album_songs_path(@album) %>
+| <%= link_to "Cancel", send("#{@parent_resource}_songs_path",@parent) %>
 <% end %>

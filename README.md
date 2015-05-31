@@ -281,6 +281,60 @@ movie_reviewers = m1.users
 movie_reviewers.map{ |reviewer| reviewer.name }
 ```
 
+
+## Code Along: JSON API
+
+**Change the review serializer to get it's name from the user that created the review.*
+
+Remember we removed the name attribute from the Review model.
+
+```
+  def name
+    object.user.name
+  end
+```
+
+#### Emulate an authenticated user.
+
+When you add login, authentication, you'll typically determine the current user by calling a current_user method in the ApplicationController. 
+
+We don't have authentication in this app yet. But, we'll emulate it by creating a current_user method and hard coding a User.
+
+**In the app/controllers/applicaiton_controller.rb**
+
+```
+def current_user
+   @current_user ||=  User.find_by_name 'Meg'
+end
+```
+
+**Change the Movies Controller to use this current_user method**
+
+```
+ # GET /movies                                                                                                     
+  def index
+    # all the movies                                                                                                
+    if current_user
+      @movies = current_user.movies.all
+    else
+      @movies = Movie.all
+    end
+
+    render json: @movies
+  end
+
+  # GET /movies/:id                                                                                                 
+  def show
+    # find one Movie by id                                                                                          
+    if current_user
+      @movie = current_user.movies.find(params[:id])
+    else
+      @movie = Movie.find(params[:id])
+    end
+    render json: @movie
+  end
+```
+
 ## References
 
 * [Rails Documentation](http://api.rubyonrails.org/)

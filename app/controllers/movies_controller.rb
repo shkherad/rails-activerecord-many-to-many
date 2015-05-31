@@ -3,14 +3,24 @@ class MoviesController < ApplicationController
   # GET /movies
   def index
     # all the movies
-    @movies = Movie.all
+
+    if current_user
+      @movies = current_user.movies.all
+    else
+      @movies = Movie.all
+    end
+
     render json: @movies
   end
 
   # GET /movies/:id
   def show
     # find one Movie by id
-    @movie = Movie.find(params[:id])
+    if current_user
+      @movie = current_user.movies.find(params[:id])
+    else
+      @movie = Movie.find(params[:id])
+    end
     render json: @movie
   end
 

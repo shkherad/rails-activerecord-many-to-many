@@ -211,6 +211,75 @@ rake db:reset
 
 ### Check seed data in the Rails console
 
+## Code Along: Has Many Through
+
+#### Find the movies a user has reviewed.
+
+Now that we have a JOIN table/model we can go **through** it to get the movies a user has created a review for. 
+
+```ruby
+class User ...
+ has_many :movies, through: :reviews
+end
+```
+
+This will use the join model to get the movies a user has reviewed.
+
+**In the rails console**
+
+```ruby
+
+tom = User.find_by_name("Tom")
+tom.movies
+
+...
+
+joanne = User.find_by_name("Joanne")
+joanne.movies
+```
+
+Notice the SQL that the `tom.movies` and `joanne.movies` generates and executes.
+
+```sql
+ SELECT "movies".* FROM "movies" INNER JOIN "reviews" ON "movies"."id" = "reviews"."movie_id" WHERE "reviews"."user_id" = $1
+```
+
+#### Find the users that have reviewed a movie.
+
+Now, let's see who have reviewed a specific movie.
+
+**Add this to the movie model.**
+
+```ruby
+class Movie < ActiveRecord::Base
+  has_many :reviews
+  has_many :users, through: :reviews
+end
+```
+
+Here we've added `has_many :users, through: :reviews`. 
+
+**In the rails console**
+
+```ruby
+
+m1 = Movie.first
+m1.users
+
+...
+ m1.users.map(&:name)
+```
+
+The `m1.users` returns an array of all the users that have reviewed the movie.
+
+*`m1.users.map(&:name)` just gets the names of all the users that have reviewed the movie. It uses the Ruby symbol to proc notation, `&:<attribute name>`.*
+
+*The above is shorthand for this.*
+
+```ruby
+movie_reviewers = m1.users
+movie_reviewers.map{ |reviewer| reviewer.name }
+```
 
 ## References
 

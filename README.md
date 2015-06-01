@@ -1,10 +1,14 @@
 ![General Assembly Logo](http://i.imgur.com/ke8USTq.png)
 
 ## Objectives
+* Use ActiveModel Serializer to create the JSON Representation of a Resource.
+* Create a Join Model for a Many-To-Many Relationship.
+* Use Rails has_many :through to implement a Many-To-Many Relationship.
+* Emulate a logged-in user to show a user's movie reviews.
 
 ## Code Along: Setup
 
-**Make sure you fork, clone, create the DB, migrate and seed the DB.**
+**Fork and clone. Then create the DB, migrate and seed the DB.**
 
 ```
 rake db:create
@@ -15,17 +19,21 @@ rake db:seed
 **Run the server**
 
 ```
-rails server
+rails s
 ```
 ## Code Along: Use ActiveModel Serializer to create the JSON Representation.
 
-We typically want to have more control over the API. For example, we don't want to show the created_at and updated_at attributes for each model. 
+We typically want to have more control over the API. For example, we don't want to show the `created_at` and `updated_at` attributes for each model. Or we may want to create an attribute that doesn't exist on a Model.
 
 The most common way to do this in a Rails API is to use the [ActiveModel Serializer](https://github.com/rails-api/active_model_serializers/tree/0-9-stable) gem. 
 
-This will create a class for each resource that will determine the *representation* of the resource.
+*Note, we are using the version 0.9 of this gem. Not the latest version as there were problems with the latest version.*
+
+ActiveModel Serializer (AMS) will create a class for each resource, Movie and Review. This class will determine the *JSON representation* of the resource.
 
 **Add this to the Gemfile, and bundle install.**
+
+This will get version 0.9.3 of this gem.
 
 ```
 gem 'active_model_serializers'
@@ -48,11 +56,12 @@ gem 'active_model_serializers'
 
 ```
 class MovieSerializer <	ActiveModel::Serializer
+  # determines which attributes will be shown in the represntation.
   attributes :id, :name, :rating, :desc, :length
 end
 ```
 
-Now look at the Movies JSON and notice that its missing the created_at and updated_at attributes. *Because they weren't included in the attributes above.*
+Now look at the Movies JSON and notice that its missing the `created_at` and `updated_at` attributes. *Because they weren't included in the attributes above.*
 
 **Add this to the app/serializers/movie_serializer.rb**
 
@@ -62,9 +71,9 @@ Now look at the Movies JSON and notice that its missing the created_at and updat
   ...
 ```
 
-**Go to /movies and /movies/2**
+**Go to `http://localhost:3000/movies` and `http://localhost:3000/movies/2`**
 
-Now when we view movies we'll see all it's reviews embedded in the view for movie!
+Now when we view movies we'll see all it's reviews embedded in the representation of a movie!
 
 But, we can see ONLY the reviews for a movie by going to *http://localhost:3000/movies/2/reviews*. 
 
@@ -72,7 +81,7 @@ See the difference? We may not need both of these, depends on what the client wa
 
 ### Create the JSON Representation of a Review.
 
-Lets create a representation of a Review. Again, we don't want the created_at and updated_at attributes.
+Lets create a representation of a review. Again, we don't want the `created_at` and `updated_at` attributes.
 
 **Add the below to app/serializers/review_serializer.rb**
 
@@ -84,9 +93,9 @@ end
 
 Doneso, good.
 
-### Create an attribute only for the JSON Representation.
+### Create a virtual attribute only for the JSON Representation.
 
-Add a review_count to attribute for Movies.
+Add a review_count virtual attribute for movie representation.
 
 ```
 class MovieSerializer < ActiveModel::Serializer
@@ -94,6 +103,7 @@ class MovieSerializer < ActiveModel::Serializer
 
   has_many :reviews
 
+  # create a virtual attribute
   def review_count
     object.reviews.count
   end
@@ -102,17 +112,22 @@ end
 
 Notice that we added an attribute, :review_count, and a getter method for that attribute. 
 
-The object in the review_count method references a specific movie object.
+The *object* in the review_count method references a specific movie object.
 
 ## Lab 
 
-Add ActiveModel Serializers for the Album and Song resources. 
+* Add ActiveModel Serializers for the Album and Song resources. Remove the `created_at` and `updated_at` attributes.
+
+* Add a virtual attribute, num_of_songs, to the Album representation using AMS.
+
+* Add a virtual attribute, price, to the Album model. The price of the album will be 50 percent of the price of all the album songs.
+
 
 ## Code Along: Create a User 
 
 Now we want to create a User model. This user will be the person that creates the movie review. 
 
-All reviews must be created by a user.
+We'll see later how all reviews must be created by a user.
 
 #### Create a User model
 
@@ -126,9 +141,9 @@ This will generate a User model and migration.
 
 Each user may have many reviews. *This is a one to many relationship*.
 
-We already had a one to many relationship before. A movie may have many reviews.
+*We already had a one to many relationship.* A movie may have many reviews.
 
-Now, we want to create a Many to Many relationship between Movies and Users. A User may review many movies and a Movie may have been reviewed by many users.
+Now, we want to create a **many to many relationship** between Movies and Users. **A user may review many movies** and a **movie may have been reviewed by many users**.
 
 **Create a migration that will add a foreign key, user_id, to the reviews table.**
 
@@ -211,6 +226,21 @@ rake db:reset
 
 ### Check seed data in the Rails console
 
+```ruby
+tom = User.find_by_name('Tom')
+tom.reviews
+
+meg = User.find_by_name('Meg')
+meg.reviews
+```
+
+## Lab
+
+* Create an Musician Model that has a name and age.
+* A Musician may have played, or contributed to, many songs.
+* Implement a one to many relationship between Musician and Song.
+
+
 ## Code Along: Has Many Through
 
 #### Find the movies a user has reviewed.
@@ -246,7 +276,7 @@ Notice the SQL that the `tom.movies` and `joanne.movies` generates and executes.
 
 #### Find the users that have reviewed a movie.
 
-Now, let's see who have reviewed a specific movie.
+Now, let's see who's reviewed a specific movie.
 
 **Add this to the movie model.**
 
@@ -272,14 +302,21 @@ m1.users
 
 The `m1.users` returns an array of all the users that have reviewed the movie.
 
-*`m1.users.map(&:name)` just gets the names of all the users that have reviewed the movie. It uses the Ruby symbol to proc notation, `&:<attribute name>`.*
+> `m1.users.map(&:name)` just gets the names of all the users that have reviewed the movie. It uses the Ruby symbol to proc notation, `&:<attribute name>`.*
 
-*The above is shorthand for this.*
+> The above is shorthand for this.
 
-```ruby
-movie_reviewers = m1.users
-movie_reviewers.map{ |reviewer| reviewer.name }
-```
+>```ruby
+>movie_reviewers = m1.users
+>movie_reviewers.map{ |reviewer| reviewer.name }
+>```
+
+## Lab
+* Create a many to many relationship between Musician and Album.
+ 
+This will all use to see the albums a musician has played on. 
+
+And we should see the musicians that have played on an album.
 
 
 ## Code Along: JSON API

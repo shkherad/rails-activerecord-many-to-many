@@ -11,6 +11,6 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-   @current_user ||=  User.find_by_name 'Meg'
+   @current_user ||=  User.find_by_name 'Tom'
   end
 end

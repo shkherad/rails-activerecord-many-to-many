@@ -373,14 +373,22 @@ end
 ```
 
 ## References
+* [Active Model Serializer (AMS) ](https://github.com/rails-api/active_model_serializers/tree/0-9-stable)
 
+* [What is "has_many through" (Video)](http://blog.teamtreehouse.com/what-is-a-has_many-through-association-in-ruby-on-rails-treehouse-quick-tip)
+
+* [ActiveModel Associations](http://guides.rubyonrails.org/association_basics.html)
+
+* [Nested Associations and has_many through](http://ryandeussing.com/blog/2013/06/12/nested-associations-and-has-many-through/)
+
+* [Setting a join model attribute](http://www.tweetegy.com/2011/02/setting-join-table-attribute-has_many-through-association-in-rails-activerecord/)
+
+* [Query and access join model attributes](http://stackoverflow.com/questions/18799934/has-many-through-how-do-you-access-join-table-attributes)
 * [Rails Documentation](http://api.rubyonrails.org/)
 
-* [Debugging Rails with the byebug Gem](http://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-byebug-gem)
 
 * [With So Much Rails to Learn, Where Do You Start?](http://www.justinweiss.com/blog/2015/05/25/with-so-much-rails-to-learn/?utm_source=rubyweekly&utm_medium=email)
 
-* [ActiveRecord Basics](http://guides.rubyonrails.org/active_record_basics.html)
 
 
 

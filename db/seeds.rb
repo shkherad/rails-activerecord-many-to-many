@@ -1,17 +1,22 @@
-Review.delete_all
-Movie.delete_all
+User.destroy_all
+Review.destroy_all
+Movie.destroy_all
+
+tom = User.create!(name: 'Tom')
+joanne = User.create!(name: 'Joanne')
+meg = User.create!(name: 'Meg')
 
 movie = Movie.create!(name: 'Affliction', rating: 'R', desc: 'Little Dark', length: 123)
-movie.reviews.create!(name: 'Tom', comment: 'Dark, somber')
-movie.reviews.create!(name: 'Meg', comment: 'Slow, boring')
+movie.reviews.create!(user: tom, comment: 'Dark, somber')
+movie.reviews.create!(user: meg, comment: 'Slow, boring')
 
 movie = Movie.create!(name: 'Mad Max', rating: 'R', desc: 'Fun, action', length: 154)
-movie.reviews.create!(name: 'Joe', comment: 'Explosions, silly')
-movie.reviews.create!(name: 'Christine', comment: 'Brilliant, fun')
+movie.reviews.create!(user: tom, comment: 'Explosions, silly')
+movie.reviews.create!(user: joanne, comment: 'Brilliant, fun')
 
 movie = Movie.create!(name: 'Rushmore', rating: 'PG-13', desc: 'Quirky humor', length: 105)
-movie.reviews.create!(name: 'Tom', comment: 'Crazy, humor')
-movie.reviews.create!(name: 'Joanne', comment: 'Waste of time, stupid')
+movie.reviews.create!(user: tom, comment: 'Crazy, humor')
+movie.reviews.create!(user: joanne, comment: 'Waste of time, stupid')
 
 puts "Created three Movies"
 

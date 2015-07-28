@@ -32,7 +32,7 @@ Diagram these two relationships using an ERD. You should have three entities and
 Exercise: Join Table Migration
 ------------------------------
 
-Generate a migration for `addresses`. `addresses` should have references to both `person` and `place`, as well as a `from` and a `to` column that denote when the address was active.
+Generate a migration for `addresses`. `addresses` should have references to both `person` and `place`.
 
 After you generate the migration, inspect it visually and if it looks right, run `rake db:migrate`. Next enter `rails db` and inspect the `addresses` table with `\d addresses`. Do the columns look as you'd expect? Your output should resemble:
 
@@ -43,8 +43,6 @@ After you generate the migration, inspect it visually and if it looks right, run
  id        | integer | not null default nextval('addresses_id_seq'::regclass)
  person_id | integer |
  place_id  | integer |
- from      | date    |
- to        | date    |
 Indexes:
     "addresses_pkey" PRIMARY KEY, btree (id)
     "index_addresses_on_person_id" btree (person_id)

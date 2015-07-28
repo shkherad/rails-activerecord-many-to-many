@@ -122,11 +122,11 @@ Exit and re-enter `rails db`. Query the `addresses` table, the `people` table, a
 Lab: Creating Associated Records
 --------------------------------
 
-Create a migration for `developers` and `companies`. `developers` should have a `given_name` and a `surname`. `companies` should have a `name`. Inspect your migration, run `rake db:migrate`, and check the results in `rails db`.
+Create a model and migration for `developers` and `companies`. `developers` should have a `given_name` and a `surname`. `companies` should have a `name`. Inspect your migration, run `rake db:migrate`, and check the results in `rails db`.
 
-Create a migration for `jobs`. `jobs` should reference both a `developer` and a `company`, and have an additional `salary` stored as an integer. Inspect your migration, run `rake db:migrate`, and check the results in `rails db`.
+Create a model and migration for `jobs`. `jobs` should reference both a `developer` and a `company`, and have an additional `salary` stored as an integer. Inspect your migration, run `rake db:migrate`, and check the results in `rails db`.
 
-Create models for `Developer`, `Job`, and `Company`. Create a many-to-many relationship between `Developer` and `Company` through `Job`. Test your work by attempting to create a new developer and two new companies associated with that developer through `rails console`. Inspect the results in `rails db`.
+Create a many-to-many relationship between `Developer` and `Company` through `Job`. Test your work by attempting to create a new developer and two new companies associated with that developer through `rails console`. Inspect the results in `rails db`.
 
 Best Practice
 -------------

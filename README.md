@@ -112,6 +112,9 @@ dc = Place.create!(city: "Washington", state: "DC")
 
 jeff.places << dc
 jeff.places << boston
+
+jeff.places
+jeff.addresses
 ```
 
 Exit and re-enter `rails db`. Query the `addresses` table, the `people` table, and the `places` table. What do you expect to see? Are your expectations met?

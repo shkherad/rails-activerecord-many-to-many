@@ -50,9 +50,12 @@ Do the columns look as you'd expect? Your output should resemble:
                            Table "public.addresses"
   Column   |  Type   |                       Modifiers
 -----------+---------+--------------------------------------------------------
- id        | integer | not null default nextval('addresses_id_seq'::regclass)
- person_id | integer |
- city_id  | integer |
+ id         | integer                     | not null default nextval('addresses_id_seq'::regclass)
+ category   | character varying           |
+ person_id  | integer                     |
+ city_id    | integer                     |
+ created_at | timestamp without time zone | not null
+ updated_at | timestamp without time zone | not null
 Indexes:
     "addresses_pkey" PRIMARY KEY, btree (id)
     "index_addresses_on_person_id" btree (person_id)
@@ -82,15 +85,13 @@ The difference is that this time, we are associating with a join table that
 To be able to access things as we'd expect, we should include both a `has_many`
  and `has_many through:` on the source model.
 
-### Exercise: Creating Associated Records
+### Code along: Creating Associated Records
 
 We need to set up ActiveRecord to handle our many-to-many relationship from
  `Person` to `City`. Open `app/models/person.rb` and edit it.
 
 ```ruby
 class Person < ActiveRecord::Base
-  has_many :pets, inverse_of: :person
-
   has_many :cities, through: :addresses
   has_many :addresses
 end
@@ -124,15 +125,15 @@ Enter `rails db`. Query the `addresses` table. It should be empty.
 Exit and then enter `rails console`.
 
 ```ruby
-jeff = Person.find_by(given_name: "Jeffrey", surname: "Horn")
-boston = City.create!(city: "Boston", state: "MA")
-dc = City.create!(city: "Washington", state: "DC")
+joan = Person.first
+boston = City.find_by city: 'Boston', region: 'MA'
+dc = City.find_by city: 'Washington', region: 'DC'
 
-jeff.cities << dc
-jeff.cities << boston
+joan.cities << dc
+joan.cities << boston
 
-jeff.cities
-jeff.addresses
+joan.cities
+joan.addresses
 ```
 
 Exit and re-enter `rails db`.
@@ -141,21 +142,22 @@ What do you expect to see? Are your expectations met?
 
 ### Lab: Creating Associated Records
 
-Create a model and migration for `developers` and `companies`. `developers`
- should have a `given_name` and a `surname`. `companies` should have a `name`.
+Create a model and migration for `companies` using the first line of
+ `data/companies.csv` for the attribute names.
 Inspect your migration, run `rake db:migrate`, and check the results in
  `rails db`.
+Add companies to the populate task and load them.
 
 Create a model and migration for `jobs`.
-`jobs` should reference both a `developer` and a `company`, and have an
- additional `salary` stored as an integer.
+`jobs` should reference both a `person` and a `company`, and have a `start_on`
+ date, `end_on` date and a `salary` stored as an integer.
 Inspect your migration, run `rake db:migrate`, and check the results in
  `rails db`.
 
-Create a many-to-many relationship between `Developer` and `Company` through
+Create a many-to-many relationship between `Person` and `Company` through
  `Job`.
-Test your work by attempting to create a new developer and two new companies
- associated with that developer through `rails console`.
+Test your work by associating a person with two companies
+ from the `rails console`.
 Inspect the results in `rails db`.
 
 ## Best Practice

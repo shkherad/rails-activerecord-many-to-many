@@ -20,11 +20,9 @@ The difference is we'll be using the `through` option for `has_many`, creating a
 
 Fork, clone, branch (training), and `bundle install`.
 
-Next, create your database, migrate, and seed.
+Next, create your database, and migrate.
 
-Follow along with your instructor, closing your laptop if requested.
-
-## Exercise: ERDs
+## Lab: ERDs
 
 Suppose we have `Person`, `City`, and `Address`.
 We want to set up two relationships, a one-to-many relationship between `Person`
@@ -36,7 +34,7 @@ Using ActiveRecord, we will be able to access `City` from `Person` and
  vice-versa.
 Draw an additional dotted line to represent this "pseudo"-relationship.
 
-## Exercise: Join Table Migration
+## Lab: Join Table Migration
 
 Generate a model and migration for `addresses`.
 `addresses` should have references to both `person` and `city`.
@@ -70,7 +68,7 @@ If you need to make changes to your migration, run `rake db:rollback`, edit the
 If you get stuck, as a last resort you can nuke and pave:
 
 ```sh
-rake db:drop db:create db:migrate db:seed
+rake db:drop db:create db:migrate db:populate:all
 ```
 
 ## Rails: `has_many :through`
@@ -126,8 +124,8 @@ Exit and then enter `rails console`.
 
 ```ruby
 joan = Person.first
-boston = City.find_by city: 'Boston', region: 'MA'
-dc = City.find_by city: 'Washington', region: 'DC'
+boston = City.find_by name: 'Boston', region: 'MA'
+dc = City.find_by name: 'Washington', region: 'DC'
 
 joan.cities << dc
 joan.cities << boston
@@ -159,6 +157,8 @@ Create a many-to-many relationship between `Person` and `Company` through
 Test your work by associating a person with two companies
  from the `rails console`.
 Inspect the results in `rails db`.
+
+Now Create a model and migration for `skills` using the first line of `data/skills.csv` for the attribute names. Join it to `people` through a table called `endorsment`, like endorsments on Linkedin
 
 ## Best Practice
 

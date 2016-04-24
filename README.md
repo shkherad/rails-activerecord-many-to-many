@@ -24,7 +24,7 @@ Next, create your database, migrate, and seed.
 
 Follow along with your instructor, closing your laptop if requested.
 
-## Exercise: ERDs
+## Lab: ERDs
 
 Suppose we have `Person`, `City`, and `Address`.
 We want to set up two relationships, a one-to-many relationship between `Person`
@@ -36,7 +36,7 @@ Using ActiveRecord, we will be able to access `City` from `Person` and
  vice-versa.
 Draw an additional dotted line to represent this "pseudo"-relationship.
 
-## Exercise: Join Table Migration
+## Lab: Join Table Migration
 
 Generate a model and migration for `addresses`.
 `addresses` should have references to both `person` and `city`.
@@ -159,6 +159,8 @@ Create a many-to-many relationship between `Person` and `Company` through
 Test your work by associating a person with two companies
  from the `rails console`.
 Inspect the results in `rails db`.
+
+Now Create a model and migration for `skills` using the first line of `data/skills.csv` for the attribute names. Join it to `people` through a table called `endorsment`, like endorsments on Linkedin
 
 ## Best Practice
 

@@ -3,7 +3,7 @@ require 'csv'
 namespace :db do
   namespace :populate do
     desc 'Fill the database with example data'
-    task all: [:people, :pets, :cities]
+    task all: [:people, :cities] # Add these when ready - :companies, :skills
 
     desc 'Fill the people table with example data'
     task people: :environment do
@@ -29,16 +29,28 @@ namespace :db do
       end
     end
 
-    desc 'Fill the pets table with example data'
-    task pets: :environment do
-      Pet.transaction do
-        CSV.foreach(Rails.root + 'data/pets.csv',
-                    headers: true) do |pet_row|
-          pet = pet_row.to_hash
-          next if Pet.exists? pet
-          Pet.create!(pet)
-        end
-      end
-    end
+    # desc 'Fill the pets table with example data'
+    # task companies: :environment do
+    #   Company.transaction do
+    #     CSV.foreach(Rails.root + 'data/companies.csv',
+    #                 headers: true) do |company_row|
+    #       company = company_row.to_hash
+    #       next if Company.exists? company
+    #       Company.create!(company)
+    #     end
+    #   end
+    # end
+
+    # desc 'Fill the pets table with example data'
+    # task skills: :environment do
+    #   Skill.transaction do
+    #     CSV.foreach(Rails.root + 'data/skills.csv',
+    #                 headers: true) do |skill_row|
+    #       skill = skill_row.to_hash
+    #       next if Skill.exists? skill
+    #       Skill.create!(skill)
+    #     end
+    #   end
+    # end
   end
 end

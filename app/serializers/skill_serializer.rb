@@ -1,3 +1,3 @@
 class SkillSerializer < ActiveModel::Serializer
-  attributes :id, :language, :framework
+  attributes :id, :language, :framework, :people
 end

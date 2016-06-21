@@ -61,8 +61,9 @@ ActiveRecord::Schema.define(version: 20160621154428) do
     t.integer  "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.string   "start_date"
+    t.string   "end_date"
+    t.integer  "salary"
   end
 
   add_index "jobs", ["company_id"], name: "index_jobs_on_company_id", using: :btree

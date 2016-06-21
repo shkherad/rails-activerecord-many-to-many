@@ -19,6 +19,8 @@
 
 require 'csv'
 
+# Example data for cities and people
+
 City.transaction do
   CSV.foreach 'data/cities.csv', headers: true do |city|
     City.create(city.to_hash)

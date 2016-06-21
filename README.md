@@ -24,7 +24,15 @@ Next, create your database, and migrate.
 
 ## Lab: ERDs
 
-Suppose we have `Person`, `City`, and `Address`.
+Taking our `Albums` and `Songs` example, how would you diagram the relationship
+to include a model of `Artist`? Tough right? Now consider a different example of
+`Songs`, `Concert Venues`, and `Performances`. How would you diagram this
+relationship to be a join? What would the join table be between the three of
+these?
+
+## Discussion: ERDs Cont'd
+
+Now suppose we have `Person`, `City`, and `Address`.
 We want to set up two relationships, a one-to-many relationship between `Person`
  and `Address`, and a one-to-many relationship between `City` and `Address`.
 
@@ -34,7 +42,7 @@ Using ActiveRecord, we will be able to access `City` from `Person` and
  vice-versa.
 Draw an additional dotted line to represent this "pseudo"-relationship.
 
-## Lab: Join Table Migration
+## Code-Along: Join Table Migration
 
 Generate a model and migration for `addresses`.
 `addresses` should have references to both `person` and `city`.
@@ -69,6 +77,12 @@ If you get stuck, as a last resort you can nuke and pave:
 
 ```sh
 rake db:drop db:create db:migrate db:populate:all
+```
+
+OR
+
+```sh
+bundle exec rake db:nuke_pave
 ```
 
 ## Rails: `has_many :through`
@@ -158,7 +172,10 @@ Test your work by associating a person with two companies
  from the `rails console`.
 Inspect the results in `rails db`.
 
-Now Create a model and migration for `skills` using the first line of `data/skills.csv` for the attribute names. Join it to `people` through a table called `endorsment`, like endorsments on Linkedin. Uncomment skills in the populate task and load them.
+Now Create a model and migration for `skills` using the first line of
+`data/skills.csv` for the attribute names. Join it to `people` through a table
+called `endorsment`, like endorsments on Linkedin. Uncomment skills in the
+populate task and load them.
 
 ## Best Practice
 

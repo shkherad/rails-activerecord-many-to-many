@@ -172,7 +172,10 @@ Test your work by associating a person with two companies
  from the `rails console`.
 Inspect the results in `rails db`.
 
-Now Create a model and migration for `skills` using the first line of `data/skills.csv` for the attribute names. Join it to `people` through a table called `endorsment`, like endorsments on Linkedin. Uncomment skills in the populate task and load them.
+Now Create a model and migration for `skills` using the first line of
+`data/skills.csv` for the attribute names. Join it to `people` through a table
+called `endorsment`, like endorsments on Linkedin. Uncomment skills in the
+populate task and load them.
 
 ## Best Practice
 

@@ -19,6 +19,8 @@
 
 require 'csv'
 
+# Example data for Cities and People
+
 City.transaction do
   CSV.foreach 'data/cities.csv', headers: true do |city|
     City.create(city.to_hash)
@@ -30,3 +32,17 @@ Person.transaction do
     Person.create(person.to_hash)
   end
 end
+
+# Example data for Companies and Skills
+
+# Company.transaction do
+#   CSV.foreach 'data/companies.csv', headers: true do |company|
+#     Company.create(company.to_hash)
+#   end
+# end
+
+# Skill.transaction do
+#   CSV.foreach 'data/skills.csv', headers: true do |skill|
+#     Skill.create(skill.to_hash)
+#   end
+# end
